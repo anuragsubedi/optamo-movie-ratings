@@ -118,7 +118,24 @@ Once the terminal outputs `Application bundle generation complete` and prints ou
 
 ---
 
+## UI & Features
 
+### 1. Secure Login Access
+![Login Screen](demo_images/ui_login.png)
+
+### 2. Main Dashboard (Top Rated Movies)
+![Main Dashboard](demo_images/ui_default.png)
+
+### 3. Advanced Filtering & Search
+![Search Features](demo_images/ui_filter.png)
+
+### 4. Fully Responsive Design
+![Responsive Layout](demo_images/ui_responsive.png)
+
+### 5. Interactive Backend API Explorer (Swagger UI)
+![Swagger API Documentation](demo_images/backend_swagger.png)
+
+---
 
 ## Architecture Overview
 
