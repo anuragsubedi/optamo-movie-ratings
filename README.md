@@ -110,6 +110,16 @@ npx ng serve
 
 Once the terminal outputs `Application bundle generation complete` and prints out `http://localhost:4200/`, your frontend is securely running in its own standalone terminal!
 
+**Step 4: Production Build (Optional)**
+
+If you are preparing to deploy the frontend to a live production environment, you should build it instead of serving it on RAM:
+
+```bash
+npx ng build --configuration production
+```
+
+This command engages the Angular compiler's optimization routines for production. The TS codebase files are minified, and combined into just a few static `<filename>.js` and `<filename>.css` "bundles.". You just serve these static files in the `dist/` folder using any basic web server.
+
 ### Use the Application
 
 1. Open `http://localhost:4200` in your browser
@@ -121,18 +131,23 @@ Once the terminal outputs `Application bundle generation complete` and prints ou
 ## UI & Features
 
 ### 1. Secure Login Access
+
 ![Login Screen](demo_images/ui_login.png)
 
 ### 2. Main Dashboard (Top Rated Movies)
+
 ![Main Dashboard](demo_images/ui_default.png)
 
 ### 3. Advanced Filtering & Search
+
 ![Search Features](demo_images/ui_filter.png)
 
 ### 4. Fully Responsive Design
+
 ![Responsive Layout](demo_images/ui_responsive.png)
 
 ### 5. Interactive Backend API Explorer (Swagger UI)
+
 ![Swagger API Documentation](demo_images/backend_swagger.png)
 
 ---
