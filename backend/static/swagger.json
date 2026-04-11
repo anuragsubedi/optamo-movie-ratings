@@ -1,0 +1,83 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Movie Ratings Explorer API",
+    "version": "1.0.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login to get JWT (admin/password)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string", "example": "admin" },
+                  "password": { "type": "string", "example": "password" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Returns JSON with token" }
+        }
+      }
+    },
+    "/api/movies/top-rated": {
+      "get": {
+        "summary": "Top rated movies (>10K ratings, >4.0 avg)",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "List of top rated movies" }
+        }
+      }
+    },
+    "/api/movies/details": {
+      "get": {
+        "summary": "Movie details by name",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "name", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Movie details" }
+        }
+      }
+    },
+    "/api/movies/search": {
+      "get": {
+        "summary": "Search movies by multi-parameter filters",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "name", "in": "query", "schema": { "type": "string" } },
+          { "name": "genre", "in": "query", "schema": { "type": "string" } },
+          { "name": "year", "in": "query", "schema": { "type": "integer" } },
+          { "name": "rating", "in": "query", "schema": { "type": "number" } }
+        ],
+        "responses": {
+          "200": { "description": "Filtered search results" }
+        }
+      }
+    }
+  }
+}
