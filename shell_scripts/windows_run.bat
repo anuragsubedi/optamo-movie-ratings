@@ -17,7 +17,7 @@ cd ..
 echo.
 echo Starting Angular frontend on port 4200 in a new window...
 cd frontend
-start "Optamo Frontend" cmd /c "call npm run start"
+start "Optamo Frontend" cmd /c "set NG_CLI_ANALYTICS=false && call npm run start"
 cd ..
 
 echo.

@@ -30,7 +30,7 @@ cd ..
 # Start Frontend
 echo " Starting Angular frontend on port 4200..."
 cd frontend || exit
-npx ng serve &
+NG_CLI_ANALYTICS=false npx ng serve &
 FRONTEND_PID=$!
 cd ..
 
