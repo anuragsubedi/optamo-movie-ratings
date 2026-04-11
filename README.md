@@ -13,6 +13,7 @@ The raw dataset contains over 25 million ratings. Instead of loading this massiv
 1. **One-Time Migration**: A raw Python script (`migrate.py`) bulk-inserts the CSV data into a persistent SQLite database.
 2. **Pre-aggregation**: The migration pre-computes advanced aggregations (like average rating and total review counts per movie) into an indexed `movie_stats` table.
 3. **REST API**: We use Flask and **SQLAlchemy ORM** to serve sub-millisecond API responses directly from the pre-aggregated database.
+4. **Server-Side Pagination & Sorting**: All list endpoints return a paginated envelope `{ data, total, page, per_page, pages }`. Sorting is resolved via `ORDER BY` in SQLite and validated against a column allowlist. The frontend `MatPaginator` drives navigation; sorting always resets to page 1 so the user sees globally top/bottom results instantly.
 
 **To quickly inspect and test the available REST API endpoints, the application includes a fully integrated Swagger UI API Explorer at `/apidocs/`.**
 
@@ -142,11 +143,15 @@ This command engages the Angular compiler's optimization routines for production
 
 ![Search Features](demo_images/ui_filter.png)
 
-### 4. Fully Responsive Design
+### 4. Server-Side Pagination
+
+All movie tables are backed by server-side pagination via `MatPaginator`. The backend resolves `COUNT(*)` and `LIMIT/OFFSET` in SQLite, so only the current page (default: 25 rows) is ever transferred. Column-header sorting fires a fresh API call with `ORDER BY` on the backend and always resets to page 1, so the user immediately sees the globally top/bottom results under the new sort order.
+
+### 5. Fully Responsive Design
 
 ![Responsive Layout](demo_images/ui_responsive.png)
 
-### 5. Interactive Backend API Explorer (Swagger UI)
+### 6. Interactive Backend API Explorer (Swagger UI)
 
 ![Swagger API Documentation](demo_images/backend_swagger.png)
 

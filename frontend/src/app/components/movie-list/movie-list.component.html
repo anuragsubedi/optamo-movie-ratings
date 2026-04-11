@@ -9,7 +9,7 @@
     </h1>
     <p class="subtitle">
       @if (isSearchMode) {
-        Found {{ movies.length }} movie(s)
+        {{ totalCount | number }} movie(s) found &mdash; page {{ currentPage + 1 }}
       } @else {
         Movies with over 10,000 ratings and an average rating above 4.0
       }
@@ -109,6 +109,15 @@
           class="movie-row"
         ></tr>
       </table>
+
+      <mat-paginator
+        [length]="totalCount"
+        [pageSize]="pageSize"
+        [pageIndex]="currentPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+        aria-label="Select page of movies"
+      ></mat-paginator>
     </div>
   }
 </div>

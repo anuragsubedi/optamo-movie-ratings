@@ -57,7 +57,7 @@ Genres are stored as pipe-delimited strings (e.g., `"Adventure|Animation|Childre
 
 ### Response Format
 
-All movie endpoints return the same shape matching `output_sample.json`:
+`/api/movies/details` returns a single movie object matching `output_sample.json`:
 
 ```json
 {
@@ -68,6 +68,37 @@ All movie endpoints return the same shape matching `output_sample.json`:
   "average_rating": number
 }
 ```
+
+List endpoints (`/top-rated`, `/search`) return a **paginated envelope**:
+
+```json
+{
+  "data":     [ ...Movie objects... ],
+  "total":    95,
+  "page":     1,
+  "per_page": 25,
+  "pages":    4
+}
+```
+
+This decouples the payload size from dataset size - the DB resolves `COUNT(*)` and `LIMIT/OFFSET` in SQLite, so Python only ever materialises the rows the caller actually needs.
+
+### Pagination & Server-Side Sorting
+
+**Problem:** Since the search results may result in possible 10000+ rows. Sending 10K+ JSON objects per request is wasteful on the network and causes a 1–3 second DOM freeze. Hence, client side pagination doesn't really make a lot of sense.
+
+**Decision: Server-Side Pagination + Server-Side Sorting** - We delegate all the pagination and sorting logic to the backend/SQL. `_build_paginated_response()` in `movie_service.py` applies a validated `ORDER BY` expression, fires a `SELECT COUNT(*)` for the total, then fetches only the requested slice with `LIMIT`/`OFFSET`.
+
+### Pagination & Sort Query Parameters
+
+Applied to both list endpoints:
+
+| Param        | Type | Default      | Notes                                                                        |
+| ------------ | ---- | ------------ | ---------------------------------------------------------------------------- |
+| `page`     | int  | 1            | 1-indexed                                                                    |
+| `per_page` | int  | 25           | clamped server-side to max 100                                               |
+| `sort_by`  | str  | see endpoint | one of:`name`, `release_year`, `average_rating`, `number_user_rated` |
+| `sort_dir` | str  | see endpoint | `asc` or `desc`                                                          |
 
 ---
 
@@ -97,3 +128,5 @@ AppComponent
 ### Using Angular Material for design
 
 Angular material is an official library that provides ready-to use components for tables, buttons, etc. This helps me avoid additional custom CSS boilerplate.
+
+---
