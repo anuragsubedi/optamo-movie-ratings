@@ -1,0 +1,14 @@
+<mat-toolbar color="primary" class="navbar">
+  <mat-icon class="nav-icon">movie</mat-icon>
+  <span class="nav-title" routerLink="/movies" style="cursor: pointer;">
+    Optamo Movie Ratings
+  </span>
+
+  <span class="spacer"></span>
+
+  @if (isAuthenticated$ | async) {
+    <button mat-icon-button (click)="logout()" matTooltip="Logout" aria-label="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+  }
+</mat-toolbar>

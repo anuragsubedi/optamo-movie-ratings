@@ -1,0 +1,38 @@
+<div class="search-bar">
+  <mat-form-field appearance="outline" class="search-field name-field">
+    <mat-label>Movie Name</mat-label>
+    <input matInput [(ngModel)]="name" placeholder="Search by name..." (keyup.enter)="onSearch()" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Genre</mat-label>
+    <mat-select [(ngModel)]="genre">
+      <mat-option value="">All Genres</mat-option>
+      @for (g of genres; track g) {
+        <mat-option [value]="g">{{ g }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="search-field small-field">
+    <mat-label>Year</mat-label>
+    <input matInput type="number" [(ngModel)]="year" placeholder="e.g. 1994" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="search-field small-field">
+    <mat-label>Min Rating</mat-label>
+    <input matInput type="number" [(ngModel)]="rating" placeholder="e.g. 4.0" min="0" max="5" step="0.5" />
+  </mat-form-field>
+
+  <div class="search-actions">
+    <button mat-raised-button color="primary" (click)="onSearch()">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+    <button mat-stroked-button (click)="onClear()">
+      <mat-icon>clear</mat-icon>
+      Clear
+    </button>
+  </div>
+</div>

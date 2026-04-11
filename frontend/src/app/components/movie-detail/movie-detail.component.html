@@ -1,0 +1,83 @@
+<div class="detail-container">
+  <button mat-button (click)="goBack()" class="back-button">
+    <mat-icon>arrow_back</mat-icon>
+    Back to Movies
+  </button>
+
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="48"></mat-spinner>
+      <p>Loading movie details...</p>
+    </div>
+  } @else if (errorMessage) {
+    <div class="error-container">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ errorMessage }}</p>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        Back to Movies
+      </button>
+    </div>
+  } @else if (movie) {
+    <mat-card class="detail-card">
+      <mat-card-header>
+        <mat-card-title class="movie-title">
+          {{ movie.name }}
+        </mat-card-title>
+        @if (movie.release_year) {
+          <mat-card-subtitle class="movie-year">
+            {{ movie.release_year }}
+          </mat-card-subtitle>
+        }
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Genres -->
+        <div class="detail-section">
+          <h3>
+            <mat-icon>category</mat-icon>
+            Genres
+          </h3>
+          <mat-chip-set>
+            @for (genre of movie.genre; track genre) {
+              <mat-chip>{{ genre }}</mat-chip>
+            }
+            @if (movie.genre.length === 0) {
+              <span class="no-data">No genres listed</span>
+            }
+          </mat-chip-set>
+        </div>
+
+        <!-- Rating -->
+        <div class="detail-section">
+          <h3>
+            <mat-icon>star_rate</mat-icon>
+            Rating
+          </h3>
+          <div class="rating-section">
+            <div class="rating-stars">
+              @for (star of getStars(); track $index) {
+                <mat-icon class="star" [class.filled]="star.filled">
+                  {{ star.filled ? 'star' : 'star_border' }}
+                </mat-icon>
+              }
+            </div>
+            <span class="rating-number">
+              {{ movie.average_rating }} <span class="rating-max">/ 5.0</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- User Ratings Count -->
+        <div class="detail-section">
+          <h3>
+            <mat-icon>people</mat-icon>
+            User Ratings
+          </h3>
+          <p class="stat-value">
+            {{ movie.number_user_rated | number }} users rated this movie
+          </p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>
