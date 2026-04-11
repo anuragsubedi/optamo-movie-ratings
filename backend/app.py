@@ -63,5 +63,5 @@ if __name__ == "__main__":
     print(f"\n Optamo Movie Ratings API")
     print(f"   Database: {Config.DB_PATH}")
     print(f"   CORS: {Config.CORS_ORIGINS}")
-    print(f"   Running on: http://localhost:5000\n")
-    app.run(debug=True, port=5000)
+    print(f"   Running on: http://localhost:5001\n")
+    app.run(debug=True, port=5001)

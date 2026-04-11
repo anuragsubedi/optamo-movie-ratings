@@ -34,4 +34,4 @@ This folder contains automation scripts to quickly set up and run the full-stack
 .\shell_scripts\windows_run.bat
 ```
 
-> Running this script will spawn two new separate Command Prompt windows (one for the backend port 5000, one for the frontend port 4200). To stop the servers, just close those terminal windows.
+> Running this script will spawn two new separate Command Prompt windows (one for the backend port 5001, one for the frontend port 4200). To stop the servers, just close those terminal windows.

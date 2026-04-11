@@ -73,10 +73,10 @@ source .venv/bin/activate          # On Windows: call .venv\Scripts\activate.bat
 
 pip install -r requirements.txt
 python migrate.py                  # One-time CSV → SQLite migration (~60s)
-python app.py                      # Starts the Flask API on port 5000
+python app.py                      # Starts the Flask API on port 5001
 ```
 
-*Once running, visit `http://127.0.0.1:5000/apidocs/` to explore the API using Swagger!*
+*Once running, visit `http://127.0.0.1:5001/apidocs/` to explore the API using Swagger!*
 
 #### 2. Setup & Run Frontend
 
@@ -110,8 +110,48 @@ npx ng serve
 
 Once the terminal outputs `Application bundle generation complete` and prints out `http://localhost:4200/`, your frontend is securely running in its own standalone terminal!
 
-### 3. Use the Application
+### Use the Application
 
 1. Open `http://localhost:4200` in your browser
 2. Login with demo credentials: **admin** / **password**
 3. Browse top-rated movies, search, and view details
+
+---
+
+
+
+## Architecture Overview
+
+```
+optamo-movie-ratings/
+├── backend/                     # Flask API server
+│   ├── app.py                   # App factory, blueprint registration, CORS
+│   ├── config.py                # Configuration (DB path, JWT secret, CORS)
+│   ├── models.py                # SQLAlchemy ORM models (Movie, MovieStats)
+│   ├── migrate.py               # One-time CSV → SQLite migration script
+│   ├── requirements.txt         # Python dependencies
+│   ├── services/
+│   │   ├── auth_service.py      # JWT token generation & validation
+│   │   └── movie_service.py     # Business logic / query layer
+│   └── routes/
+│       ├── auth_routes.py       # POST /api/auth/login
+│       └── movie_routes.py      # GET /api/movies/* endpoints
+├── frontend/                    # Angular 19 SPA
+│   └── src/app/
+│       ├── components/
+│       │   ├── login/           # Login form
+│       │   ├── navbar/          # Navigation bar
+│       │   ├── movie-list/      # Top-rated table + search
+│       │   ├── movie-detail/    # Movie detail card
+│       │   └── search-bar/      # Multi-param filter form
+│       ├── services/
+│       │   ├── auth.service.ts  # JWT token lifecycle
+│       │   └── movie.service.ts # HTTP data access layer
+│       ├── interceptors/        # Auth token auto-attachment
+│       ├── guards/              # Route protection
+│       └── models/              # TypeScript interfaces
+|
+├── movie_ratings/               # Source CSV data files
+├── initial_exploration.ipynb    # Data exploration notebook
+└── design_notes.md              # Architectural decisions log
+```

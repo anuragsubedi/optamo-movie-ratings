@@ -20,7 +20,7 @@ cleanup() {
 trap cleanup SIGINT SIGTERM
 
 # Start Backend
-echo " Starting Flask backend on port 5000..."
+echo " Starting Flask backend on port 5001..."
 cd backend || exit
 source .venv/bin/activate
 python app.py &
@@ -37,8 +37,8 @@ cd ..
 echo ""
 echo " Application is running!"
 echo "   Frontend: http://localhost:4200"
-echo "   Backend : http://localhost:5000"
-echo "   API Docs: http://localhost:5000/apidocs/"
+echo "   Backend : http://localhost:5001"
+echo "   API Docs: http://localhost:5001/apidocs/"
 echo ""
 echo "Press CTRL+C to stop both servers."
 
